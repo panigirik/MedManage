@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "iIo1naFOdHKNhKXTWhvrz79QligQ2qBmAmga6OvwwDHEs/lDVPjsNN8u+mKSUm0j3Dp92iclvzdnIP35arlNHA==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Admin\\RiderProjects\\MedManage\\MedManage.Core\\MedManage.Domain\\MedManage.Domain.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\V\\microsoft.entityframeworkcore.abstractions\\9.0.0\\microsoft.entityframeworkcore.abstractions.9.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}

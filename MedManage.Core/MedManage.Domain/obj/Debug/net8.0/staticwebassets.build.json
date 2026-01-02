@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "PVpP4RgylC4OKCljV/C3XVBJJJnXz11B5ETpF9jwpbQ=",
+  "Source": "MedManage.Domain",
+  "BasePath": "_content/MedManage.Domain",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

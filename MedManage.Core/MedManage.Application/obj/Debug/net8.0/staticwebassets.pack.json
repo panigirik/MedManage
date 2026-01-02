@@ -1,0 +1,25 @@
+{
+  "Files": [
+    {
+      "Id": "C:\\Users\\Admin\\RiderProjects\\MedManage\\MedManage.Core\\MedManage.Application\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\MedManage.Application.bundle.scp.css",
+      "PackagePath": "staticwebassets\\MedManage.Application.bundle.scp.css"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.MedManage.Application.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.MedManage.Application.props",
+      "PackagePath": "build\\MedManage.Application.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.MedManage.Application.props",
+      "PackagePath": "buildMultiTargeting\\MedManage.Application.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.MedManage.Application.props",
+      "PackagePath": "buildTransitive\\MedManage.Application.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

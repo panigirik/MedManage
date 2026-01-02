@@ -1,0 +1,23 @@
+{
+  "Version": 1,
+  "Hash": "GQDyrz0ER+vX0kerYElg/TRwBXuog2d+68Gztr0SWGY=",
+  "Source": "MedManage.Persistence",
+  "BasePath": "_content/MedManage.Persistence",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [
+    {
+      "Identity": "C:\\Users\\Admin\\RiderProjects\\MedManage\\MedManage.Core\\MedManage.Domain\\MedManage.Domain.csproj",
+      "Version": 2,
+      "Source": "MedManage.Domain",
+      "GetPublishAssetsTargets": "ComputeReferencedStaticWebAssetsPublishManifest;GetCurrentProjectPublishStaticWebAssetItems",
+      "AdditionalPublishProperties": "Configuration=Debug;Platform=AnyCPU",
+      "AdditionalPublishPropertiesToRemove": "WebPublishProfileFile;TargetFramework;RuntimeIdentifier;SelfContained",
+      "GetBuildAssetsTargets": "GetCurrentProjectBuildStaticWebAssetItems",
+      "AdditionalBuildProperties": "Configuration=Debug;Platform=AnyCPU",
+      "AdditionalBuildPropertiesToRemove": "WebPublishProfileFile;TargetFramework;RuntimeIdentifier;SelfContained"
+    }
+  ],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
