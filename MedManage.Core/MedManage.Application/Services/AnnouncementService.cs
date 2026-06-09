@@ -9,6 +9,7 @@ using MedManage.Application.Interfaces;
 using MedManage.Domain.Entities;
 using MedManage.Domain.Interfaces;
 using MedManage.Domain.Enums;
+using Microsoft.AspNetCore.Http;
 
 namespace MedManage.Application.Services
 {

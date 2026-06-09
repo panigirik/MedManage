@@ -1,0 +1,220 @@
+[
+  {
+    "ContainingType": "MedManage.WebAPI.Controllers.AnnouncementController",
+    "Method": "GetAnnouncementById",
+    "RelativePath": "api/Announcement/{announcementId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "announcementId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MedManage.WebAPI.Controllers.AnnouncementController",
+    "Method": "ChangeAnnouncementContentAsync",
+    "RelativePath": "api/Announcement/{announcementId}",
+    "HttpMethod": "PATCH",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "announcementId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "content",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MedManage.WebAPI.Controllers.AnnouncementController",
+    "Method": "DeleteAnnouncementAsync",
+    "RelativePath": "api/Announcement/{announcementId}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "announcementId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MedManage.WebAPI.Controllers.AnnouncementController",
+    "Method": "GetAllAnnouncementsAsync",
+    "RelativePath": "api/Announcement/all",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MedManage.WebAPI.Controllers.AnnouncementController",
+    "Method": "CreateNewAnnouncementAsync",
+    "RelativePath": "api/Announcement/create",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "announcement",
+        "Type": "MedManage.Application.DTOs.AnnouncementDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MedManage.WebAPI.Controllers.AnnouncementController",
+    "Method": "GetAllAnnouncementsPaginatedAsync",
+    "RelativePath": "api/Announcement/paginated",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "pageNumber",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "pageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "sortBy",
+        "Type": "MedManage.Domain.Enums.TypeOfSort",
+        "IsRequired": false
+      },
+      {
+        "Name": "searchFilter",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "productType",
+        "Type": "MedManage.Domain.Enums.ProductType",
+        "IsRequired": false
+      },
+      {
+        "Name": "statusInventory",
+        "Type": "MedManage.Domain.Enums.InventoryStatus",
+        "IsRequired": false
+      },
+      {
+        "Name": "views",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MedManage.WebAPI.Controllers.UserController",
+    "Method": "GetCurrentUser",
+    "RelativePath": "api/User/CurrentUser",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MedManage.WebAPI.Controllers.UserController",
+    "Method": "GetUserNameFromToken",
+    "RelativePath": "api/User/name",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MedManage.WebAPI.Controllers.UserController",
+    "Method": "UpdateUserInfoAsync",
+    "RelativePath": "api/User/update",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "updatedUser",
+        "Type": "MedManage.Application.DTOs.UserDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MedManage.WebAPI.Controllers.UserController",
+    "Method": "UpdateUserRole",
+    "RelativePath": "api/User/users/{userId}/Role",
+    "HttpMethod": "PATCH",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "updatedUser",
+        "Type": "MedManage.Application.DTOs.UserDTO",
+        "IsRequired": true
+      },
+      {
+        "Name": "newRole",
+        "Type": "MedManage.Domain.Enums.UserRole",
+        "IsRequired": false
+      },
+      {
+        "Name": "userId",
+        "Type": "",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MedManage.WebAPI.Controllers.UserController",
+    "Method": "UpdateUserRole",
+    "RelativePath": "api/User/users/{userId}/updateNumber",
+    "HttpMethod": "PATCH",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "updatedUser",
+        "Type": "MedManage.Application.DTOs.UserDTO",
+        "IsRequired": true
+      },
+      {
+        "Name": "userId",
+        "Type": "",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MedManage.WebAPI.Controllers.UserController",
+    "Method": "GetAllUsersExceptAsync",
+    "RelativePath": "api/User/users/all",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  }
+]
