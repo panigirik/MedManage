@@ -1,42 +1,36 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Admin\\RiderProjects\\MedManage\\MedManage.Core\\MedManage.Application\\MedManage.Application.csproj": {}
+    "D:\\MedManage\\MedManage.Core\\MedManage.Application\\MedManage.Application.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Admin\\RiderProjects\\MedManage\\MedManage.Core\\MedManage.Application\\MedManage.Application.csproj": {
+    "D:\\MedManage\\MedManage.Core\\MedManage.Application\\MedManage.Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Admin\\RiderProjects\\MedManage\\MedManage.Core\\MedManage.Application\\MedManage.Application.csproj",
+        "projectUniqueName": "D:\\MedManage\\MedManage.Core\\MedManage.Application\\MedManage.Application.csproj",
         "projectName": "MedManage.Application",
-        "projectPath": "C:\\Users\\Admin\\RiderProjects\\MedManage\\MedManage.Core\\MedManage.Application\\MedManage.Application.csproj",
-        "packagesPath": "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\V",
-        "outputPath": "C:\\Users\\Admin\\RiderProjects\\MedManage\\MedManage.Core\\MedManage.Application\\obj\\",
+        "projectPath": "D:\\MedManage\\MedManage.Core\\MedManage.Application\\MedManage.Application.csproj",
+        "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
+        "outputPath": "D:\\MedManage\\MedManage.Core\\MedManage.Application\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\Admin\\RiderProjects\\MedManage\\MedManage.Core\\MedManage.Domain\\MedManage.Domain.csproj": {
-                "projectPath": "C:\\Users\\Admin\\RiderProjects\\MedManage\\MedManage.Core\\MedManage.Domain\\MedManage.Domain.csproj"
+              "D:\\MedManage\\MedManage.Core\\MedManage.Domain\\MedManage.Domain.csproj": {
+                "projectPath": "D:\\MedManage\\MedManage.Core\\MedManage.Domain\\MedManage.Domain.csproj"
               },
-              "C:\\Users\\Admin\\RiderProjects\\MedManage\\MedManage.Persistence\\MedManage.Persistence.csproj": {
-                "projectPath": "C:\\Users\\Admin\\RiderProjects\\MedManage\\MedManage.Persistence\\MedManage.Persistence.csproj"
+              "D:\\MedManage\\MedManage.Persistence\\MedManage.Persistence.csproj": {
+                "projectPath": "D:\\MedManage\\MedManage.Persistence\\MedManage.Persistence.csproj"
               }
             }
           }
@@ -45,6 +39,11 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -85,32 +84,26 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.402/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.417/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\Admin\\RiderProjects\\MedManage\\MedManage.Core\\MedManage.Domain\\MedManage.Domain.csproj": {
+    "D:\\MedManage\\MedManage.Core\\MedManage.Domain\\MedManage.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Admin\\RiderProjects\\MedManage\\MedManage.Core\\MedManage.Domain\\MedManage.Domain.csproj",
+        "projectUniqueName": "D:\\MedManage\\MedManage.Core\\MedManage.Domain\\MedManage.Domain.csproj",
         "projectName": "MedManage.Domain",
-        "projectPath": "C:\\Users\\Admin\\RiderProjects\\MedManage\\MedManage.Core\\MedManage.Domain\\MedManage.Domain.csproj",
-        "packagesPath": "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\V",
-        "outputPath": "C:\\Users\\Admin\\RiderProjects\\MedManage\\MedManage.Core\\MedManage.Domain\\obj\\",
+        "projectPath": "D:\\MedManage\\MedManage.Core\\MedManage.Domain\\MedManage.Domain.csproj",
+        "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
+        "outputPath": "D:\\MedManage\\MedManage.Core\\MedManage.Domain\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -123,6 +116,11 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -153,40 +151,34 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.402/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.417/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\Admin\\RiderProjects\\MedManage\\MedManage.Persistence\\MedManage.Persistence.csproj": {
+    "D:\\MedManage\\MedManage.Persistence\\MedManage.Persistence.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Admin\\RiderProjects\\MedManage\\MedManage.Persistence\\MedManage.Persistence.csproj",
+        "projectUniqueName": "D:\\MedManage\\MedManage.Persistence\\MedManage.Persistence.csproj",
         "projectName": "MedManage.Persistence",
-        "projectPath": "C:\\Users\\Admin\\RiderProjects\\MedManage\\MedManage.Persistence\\MedManage.Persistence.csproj",
-        "packagesPath": "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\V",
-        "outputPath": "C:\\Users\\Admin\\RiderProjects\\MedManage\\MedManage.Persistence\\obj\\",
+        "projectPath": "D:\\MedManage\\MedManage.Persistence\\MedManage.Persistence.csproj",
+        "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
+        "outputPath": "D:\\MedManage\\MedManage.Persistence\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\Admin\\RiderProjects\\MedManage\\MedManage.Core\\MedManage.Domain\\MedManage.Domain.csproj": {
-                "projectPath": "C:\\Users\\Admin\\RiderProjects\\MedManage\\MedManage.Core\\MedManage.Domain\\MedManage.Domain.csproj"
+              "D:\\MedManage\\MedManage.Core\\MedManage.Domain\\MedManage.Domain.csproj": {
+                "projectPath": "D:\\MedManage\\MedManage.Core\\MedManage.Domain\\MedManage.Domain.csproj"
               }
             }
           }
@@ -195,6 +187,11 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -239,7 +236,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.402/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.417/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
