@@ -1,4 +1,4 @@
-﻿using MedManage.Domain.Enums;
+using MedManage.Domain.Enums;
 
 namespace MedManage.Domain.Entities;
 
@@ -7,15 +7,35 @@ namespace MedManage.Domain.Entities;
 /// </summary>
 public class User
 {
+    private User()
+    {
+    }
+
+    public User(
+        string userName,
+        string fullName,
+        UserRole role,
+        string phoneNumber,
+        Guid? organizationId = null)
+    {
+        UserId = Guid.NewGuid();
+        UserName = userName;
+        FullName = fullName;
+        Role = role;
+        PhoneNumber = phoneNumber;
+        OrganizationId = organizationId;
+        CreatedAt = DateTime.UtcNow;
+    }
+
     /// <summary>
     /// Уникальный идентификатор пользователя.
     /// </summary>
-    public Guid UserId { get; set; }
+    public Guid UserId { get; private set; }
 
     /// <summary>
     /// Имя пользователя (логин).
     /// </summary>
-    public string UserName { get; set; } = null!;
+    public string UserName { get; private set; } = null!;
 
     /// <summary>
     /// Полное имя пользователя.
@@ -30,7 +50,7 @@ public class User
     /// <summary>
     /// Дата и время создания записи о пользователе.
     /// </summary>
-    public DateTime CreatedAt { get; set; }
+    public DateTime CreatedAt { get; private set; }
 
     /// <summary>
     /// Контактный номер телефона.
@@ -50,5 +70,5 @@ public class User
     /// <summary>
     /// Объявления, созданные пользователем.
     /// </summary>
-    public ICollection<Announcement> Announcements { get; set; } = new List<Announcement>();
+    public ICollection<Announcement> Announcements { get; private set; } = new List<Announcement>();
 }

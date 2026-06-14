@@ -6,11 +6,11 @@ namespace MedManage.Persistence.Extensions;
 
 public static class WebApplicationExtensions
 {
-    public static WebApplication ApplyDatabaseMigrations(this WebApplication app)
+    public static WebApplication InitializeDatabase(this WebApplication app)
     {
         using var scope = app.Services.CreateScope();
         var migrationService = scope.ServiceProvider.GetRequiredService<MigrationService>();
-        migrationService.MigrateAll();
+        migrationService.InitializeDatabase();
 
         return app;
     }

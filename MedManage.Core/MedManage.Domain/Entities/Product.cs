@@ -1,4 +1,4 @@
-﻿using MedManage.Domain.Enums;
+using MedManage.Domain.Enums;
 
 namespace MedManage.Domain.Entities;
 
@@ -7,10 +7,29 @@ namespace MedManage.Domain.Entities;
 /// </summary>
 public class Product
 {
+    private Product()
+    {
+    }
+
+    public Product(
+        string name,
+        ProductType type,
+        decimal price,
+        DateTime expirationDate,
+        Guid organizationId)
+    {
+        ProductId = Guid.NewGuid();
+        Name = name;
+        Type = type;
+        Price = price;
+        ExpirationDate = expirationDate;
+        OrganizationId = organizationId;
+    }
+
     /// <summary>
     /// Уникальный идентификатор продукта.
     /// </summary>
-    public Guid ProductId { get; set; }
+    public Guid ProductId { get; private set; }
 
     /// <summary>
     /// Название продукта.

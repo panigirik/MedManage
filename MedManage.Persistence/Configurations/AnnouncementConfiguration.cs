@@ -36,14 +36,6 @@ public class AnnouncementConfiguration : IEntityTypeConfiguration<Announcement>
         builder.Property(a => a.Views)
             .IsRequired();
 
-        builder.HasIndex(a => a.CreatedByUserId);
-
-        builder.HasIndex(a => a.OrganizationId);
-
-        builder.HasIndex(a => a.CreatedAt);
-
-        builder.HasIndex(a => new { a.TypeProduct, a.StatusInventory });
-
         builder.HasOne(a => a.User)
             .WithMany(u => u.Announcements)
             .HasForeignKey(a => a.CreatedByUserId)
@@ -53,5 +45,13 @@ public class AnnouncementConfiguration : IEntityTypeConfiguration<Announcement>
             .WithMany(o => o.Announcements)
             .HasForeignKey(a => a.OrganizationId)
             .OnDelete(DeleteBehavior.SetNull);
+
+        builder.HasIndex(a => a.CreatedByUserId);
+
+        builder.HasIndex(a => a.OrganizationId);
+
+        builder.HasIndex(a => a.CreatedAt);
+
+        builder.HasIndex(a => new { a.TypeProduct, a.StatusInventory });
     }
 }

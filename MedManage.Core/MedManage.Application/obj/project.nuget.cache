@@ -1,11 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "1j7XGsplFaw=",
+  "dgSpecHash": "HpsPrsyiKek=",
   "success": true,
   "projectFilePath": "D:\\laba\\практика\\MedManage.Core\\MedManage.Application\\MedManage.Application.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\vvrv\\.nuget\\packages\\automapper\\16.1.1\\automapper.16.1.1.nupkg.sha512",
     "C:\\Users\\vvrv\\.nuget\\packages\\automapper.extensions.expressionmapping\\11.0.0\\automapper.extensions.expressionmapping.11.0.0.nupkg.sha512",
+    "C:\\Users\\vvrv\\.nuget\\packages\\castle.core\\5.2.1\\castle.core.5.2.1.nupkg.sha512",
     "C:\\Users\\vvrv\\.nuget\\packages\\microsoft.bcl.cryptography\\10.0.2\\microsoft.bcl.cryptography.10.0.2.nupkg.sha512",
     "C:\\Users\\vvrv\\.nuget\\packages\\microsoft.entityframeworkcore\\10.0.8\\microsoft.entityframeworkcore.10.0.8.nupkg.sha512",
     "C:\\Users\\vvrv\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\10.0.8\\microsoft.entityframeworkcore.abstractions.10.0.8.nupkg.sha512",
@@ -26,6 +27,7 @@
     "C:\\Users\\vvrv\\.nuget\\packages\\microsoft.identitymodel.tokens\\8.19.1\\microsoft.identitymodel.tokens.8.19.1.nupkg.sha512",
     "C:\\Users\\vvrv\\.nuget\\packages\\npgsql\\10.0.3\\npgsql.10.0.3.nupkg.sha512",
     "C:\\Users\\vvrv\\.nuget\\packages\\npgsql.entityframeworkcore.postgresql\\10.0.2\\npgsql.entityframeworkcore.postgresql.10.0.2.nupkg.sha512",
+    "C:\\Users\\vvrv\\.nuget\\packages\\system.diagnostics.eventlog\\6.0.0\\system.diagnostics.eventlog.6.0.0.nupkg.sha512",
     "C:\\Users\\vvrv\\.nuget\\packages\\system.identitymodel.tokens.jwt\\8.19.1\\system.identitymodel.tokens.jwt.8.19.1.nupkg.sha512"
   ],
   "logs": []

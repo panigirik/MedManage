@@ -1,14 +1,28 @@
-﻿namespace MedManage.Domain.Entities;
+namespace MedManage.Domain.Entities;
 
 /// <summary>
 /// Сущность организации (медицинское учреждение, поставщик и т.д.).
 /// </summary>
 public class Organization
 {
+    private Organization()
+    {
+    }
+
+    public Organization(string name, string address, string phoneNumber, string email)
+    {
+        OrganizationId = Guid.NewGuid();
+        Name = name;
+        Address = address;
+        PhoneNumber = phoneNumber;
+        Email = email;
+        CreatedAt = DateTime.UtcNow;
+    }
+
     /// <summary>
     /// Уникальный идентификатор организации.
     /// </summary>
-    public Guid OrganizationId { get; set; }
+    public Guid OrganizationId { get; private set; }
 
     /// <summary>
     /// Название организации.
@@ -33,20 +47,20 @@ public class Organization
     /// <summary>
     /// Дата и время создания записи об организации.
     /// </summary>
-    public DateTime CreatedAt { get; set; }
+    public DateTime CreatedAt { get; private set; }
 
     /// <summary>
     /// Пользователи, принадлежащие организации.
     /// </summary>
-    public ICollection<User> Users { get; set; } = new List<User>();
+    public ICollection<User> Users { get; private set; } = new List<User>();
 
     /// <summary>
     /// Продукты, принадлежащие организации.
     /// </summary>
-    public ICollection<Product> Products { get; set; } = new List<Product>();
+    public ICollection<Product> Products { get; private set; } = new List<Product>();
 
     /// <summary>
     /// Объявления, относящиеся к организации.
     /// </summary>
-    public ICollection<Announcement> Announcements { get; set; } = new List<Announcement>();
+    public ICollection<Announcement> Announcements { get; private set; } = new List<Announcement>();
 }

@@ -22,3 +22,4 @@ D:\laba\практика\MedManage.Indentity\obj\Debug\net10.0\MedManage.Indenti
 D:\laba\практика\MedManage.Indentity\obj\Debug\net10.0\refint\MedManage.Indentity.dll
 D:\laba\практика\MedManage.Indentity\obj\Debug\net10.0\MedManage.Indentity.pdb
 D:\laba\практика\MedManage.Indentity\obj\Debug\net10.0\ref\MedManage.Indentity.dll
+D:\laba\практика\MedManage.Indentity\obj\Debug\net10.0\staticwebassets.upToDateCheck.txt

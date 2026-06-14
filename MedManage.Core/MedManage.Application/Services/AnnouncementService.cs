@@ -1,4 +1,4 @@
-﻿using System.IdentityModel.Tokens.Jwt;
+using System.IdentityModel.Tokens.Jwt;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
@@ -80,11 +80,14 @@ namespace MedManage.Application.Services
             var user = await _userRepository.GetByIdAsync(userId);
             if (user == null) throw new InvalidOperationException("Пользователь не найден.");
 
-            var announcement = _mapper.Map<Announcement>(announcementRequest);
-            announcement.CreatedByUserId = userId;
-            announcement.OrganizationId = user.OrganizationId;
-
-            await _announcementRepository.CreateAsync(announcement);
+            await _announcementRepository.CreateAsync(
+                announcementRequest.Title,
+                announcementRequest.Content,
+                userId,
+                announcementRequest.StatusInventory,
+                announcementRequest.TypeProduct,
+                user.OrganizationId,
+                announcementRequest.ExpirationDate);
         }
 
 

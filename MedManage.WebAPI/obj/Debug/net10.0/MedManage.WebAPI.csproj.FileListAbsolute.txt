@@ -145,4 +145,5 @@ D:\laba\практика\MedManage.WebAPI\obj\Debug\net10.0\swae.build.ex.cache
 D:\laba\практика\MedManage.WebAPI\obj\Debug\net10.0\MedManag.9A0CD194.Up2Date
 D:\laba\практика\MedManage.WebAPI\obj\Debug\net10.0\MedManage.WebAPI.genruntimeconfig.cache
 D:\laba\практика\MedManage.WebAPI\obj\Debug\net10.0\ref\MedManage.WebAPI.dll
+d:\laba\практика\MedManage.WebAPI\bin\Debug\net10.0\Castle.Core.dll
 D:\laba\практика\MedManage.WebAPI\obj\Debug\net10.0\staticwebassets.upToDateCheck.txt

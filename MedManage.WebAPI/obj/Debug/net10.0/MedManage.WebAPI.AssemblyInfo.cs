@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MedManage.WebAPI")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b47ee770d96de5eab8980e9aecb520be3d862f8c")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+09204b06c4c8e159fc732de07430e18d7e05f42e")]
 [assembly: System.Reflection.AssemblyProductAttribute("MedManage.WebAPI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MedManage.WebAPI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

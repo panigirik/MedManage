@@ -27,12 +27,6 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
         builder.Property(p => p.ExpirationDate)
             .IsRequired();
 
-        builder.HasIndex(p => p.OrganizationId);
-
-        builder.HasIndex(p => p.Type);
-
-        builder.HasIndex(p => new { p.OrganizationId, p.Name });
-
         builder.HasOne(p => p.Organization)
             .WithMany(o => o.Products)
             .HasForeignKey(p => p.OrganizationId)
@@ -42,5 +36,11 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
             .WithOne(i => i.Product)
             .HasForeignKey<Inventory>(i => i.ProductId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        builder.HasIndex(p => p.OrganizationId);
+
+        builder.HasIndex(p => p.Type);
+
+        builder.HasIndex(p => new { p.OrganizationId, p.Name });
     }
 }

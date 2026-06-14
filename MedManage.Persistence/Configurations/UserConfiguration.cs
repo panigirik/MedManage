@@ -31,14 +31,14 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.Property(u => u.CreatedAt)
             .IsRequired();
 
-        builder.HasIndex(u => u.UserName)
-            .IsUnique();
-
-        builder.HasIndex(u => u.OrganizationId);
-
         builder.HasOne(u => u.Organization)
             .WithMany(o => o.Users)
             .HasForeignKey(u => u.OrganizationId)
             .OnDelete(DeleteBehavior.SetNull);
+
+        builder.HasIndex(u => u.UserName)
+            .IsUnique();
+
+        builder.HasIndex(u => u.OrganizationId);
     }
 }

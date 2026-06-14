@@ -1,1 +1,15 @@
-.vs
+bin/
+obj/
+.vs/
+.vscode/
+.idea/
+.dotnet_home/
+Logs/
+*.log
+.env
+.env.*
+!.env.example
+runtime/
+src/Api/DataProtectionKeys/
+*.user
+*.suo

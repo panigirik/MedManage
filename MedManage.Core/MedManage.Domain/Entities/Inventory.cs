@@ -1,14 +1,26 @@
-﻿namespace MedManage.Domain.Entities;
+namespace MedManage.Domain.Entities;
 
 /// <summary>
 /// Сущность складского остатка продукта.
 /// </summary>
 public class Inventory
 {
+    private Inventory()
+    {
+    }
+
+    public Inventory(Guid productId, int quantityInStock)
+    {
+        InventoryId = Guid.NewGuid();
+        ProductId = productId;
+        QuantityInStock = quantityInStock;
+        LastUpdated = DateTime.UtcNow;
+    }
+
     /// <summary>
     /// Уникальный идентификатор записи инвентаризации.
     /// </summary>
-    public Guid InventoryId { get; set; }
+    public Guid InventoryId { get; private set; }
 
     /// <summary>
     /// Количество товара на складе.
@@ -23,7 +35,7 @@ public class Inventory
     /// <summary>
     /// Идентификатор продукта (внешний ключ, уникальный — связь 1:1).
     /// </summary>
-    public Guid ProductId { get; set; }
+    public Guid ProductId { get; private set; }
 
     /// <summary>
     /// Продукт, связанный с инвентаризацией.
