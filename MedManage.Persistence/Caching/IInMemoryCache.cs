@@ -10,5 +10,7 @@ public interface IInMemoryCache
 
     bool ContainsKey(string key);
 
+    void RemoveByPrefix(string prefix);
+
     void Clear();
 }

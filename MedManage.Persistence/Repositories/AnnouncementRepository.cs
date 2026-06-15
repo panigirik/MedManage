@@ -14,10 +14,9 @@ namespace MedManage.Persistence.Repositories;
 public class AnnouncementRepository : IAnnouncementRepository
 {
     private const int RecentAnnouncementsLimit = 20;
-    private static readonly TimeSpan CacheExpiration = TimeSpan.FromMinutes(30);
 
     private readonly IAppDbContext _context;
-    private readonly IInMemoryCache _cache;
+    private readonly IInMemoryCache _cache; // только для массовой инвалидации в GetPaginated
 
     public AnnouncementRepository(IAppDbContext context, IInMemoryCache cache)
     {
@@ -25,14 +24,9 @@ public class AnnouncementRepository : IAnnouncementRepository
         _cache = cache;
     }
 
+    [Cache("RecentAnnouncements", ExpirationSeconds = 300)] // 5 минут
     public async Task<IEnumerable<Announcement>> GetAllAsync()
     {
-        if (_cache.TryGet<List<Announcement>>(AnnouncementCacheKeys.RecentAnnouncements, out var cachedRecent)
-            && cachedRecent is { Count: > 0 })
-        {
-            return cachedRecent;
-        }
-
         return await _context.Announcements
             .Include(a => a.User)
             .OrderByDescending(a => a.CreatedAt)
@@ -40,27 +34,16 @@ public class AnnouncementRepository : IAnnouncementRepository
             .ToListAsync();
     }
 
+    [Cache("ById:{announcementId}", ExpirationSeconds = 1800)] // 30 минут
     public async Task<Announcement> GetByIdAsync(Guid announcementId)
     {
-        if (_cache.TryGet<Announcement>(AnnouncementCacheKeys.ById(announcementId), out var cached)
-            && cached is not null)
-        {
-            return cached;
-        }
-
-        var announcement = await _context.Announcements
+        return await _context.Announcements
             .Include(a => a.User)
             .FirstOrDefaultAsync(a => a.AnnouncementId == announcementId);
-
-        if (announcement is not null)
-        {
-            CacheAnnouncement(announcement);
-        }
-
-        return announcement;
     }
 
     [Transactional]
+    [CacheInvalidate("RecentAnnouncements", "ById:*")] // сбрасываем список и все кешированные объявления
     public IQueryable<Announcement> GetPaginated(
         int pageNumber,
         int pageSize,
@@ -74,20 +57,14 @@ public class AnnouncementRepository : IAnnouncementRepository
             .AsQueryable();
 
         if (productType != ProductType.All)
-        {
             announcements = announcements.Where(a => a.TypeProduct == productType);
-        }
 
         if (inventoryStatus != InventoryStatus.All)
-        {
             announcements = announcements.Where(a => a.StatusInventory == inventoryStatus);
-        }
 
         if (!string.IsNullOrWhiteSpace(searchFilter))
-        {
             announcements = announcements.Where(a =>
                 a.Title.Contains(searchFilter) || a.Content.Contains(searchFilter));
-        }
 
         announcements = sortBy switch
         {
@@ -105,10 +82,12 @@ public class AnnouncementRepository : IAnnouncementRepository
         {
             announcement.Views++;
             _context.Announcements.Update(announcement);
-            _cache.Remove(AnnouncementCacheKeys.ById(announcement.AnnouncementId));
         }
 
         _context.SaveChanges();
+
+        // массовая инвалидация (дублирует атрибут, но атрибут сработает после метода)
+        _cache.RemoveByPrefix("ById:");
         _cache.Remove(AnnouncementCacheKeys.RecentAnnouncements);
 
         return announcements
@@ -117,6 +96,7 @@ public class AnnouncementRepository : IAnnouncementRepository
     }
 
     [Transactional]
+    [CacheInvalidate("RecentAnnouncements", "ById:*")]
     public async Task<Announcement> CreateAsync(
         string title,
         string content,
@@ -142,27 +122,23 @@ public class AnnouncementRepository : IAnnouncementRepository
             .Include(a => a.User)
             .FirstAsync(a => a.AnnouncementId == announcement.AnnouncementId);
 
-        AddToRecentAnnouncementsCache(announcementWithUser);
-
         return announcementWithUser;
     }
 
     [Transactional]
+    [CacheInvalidate("RecentAnnouncements", "ById:*")]
     public async Task UpdateAsync(Announcement announcement)
     {
         _context.Announcements.Update(announcement);
         await _context.SaveChangesAsync();
-
-        RemoveFromCache(announcement.AnnouncementId);
     }
 
     [Transactional]
+    [CacheInvalidate("RecentAnnouncements", "ById:*")]
     public async Task DeleteAsync(Announcement announcement)
     {
         _context.Announcements.Remove(announcement);
         await _context.SaveChangesAsync();
-
-        RemoveFromCache(announcement.AnnouncementId);
     }
 
     public async Task<IEnumerable<Announcement>> GetAnnouncementsByAuthorAsync(string authorName)
@@ -187,38 +163,5 @@ public class AnnouncementRepository : IAnnouncementRepository
         return await _context.Announcements
             .Where(a => a.Content.Contains(content))
             .ToListAsync();
-    }
-
-    private void CacheAnnouncement(Announcement announcement)
-    {
-        _cache.Set(
-            AnnouncementCacheKeys.ById(announcement.AnnouncementId),
-            announcement,
-            CacheExpiration);
-    }
-
-    private void AddToRecentAnnouncementsCache(Announcement announcement)
-    {
-        CacheAnnouncement(announcement);
-
-        var recent = _cache.TryGet<List<Announcement>>(AnnouncementCacheKeys.RecentAnnouncements, out var cached)
-            ? cached ?? new List<Announcement>()
-            : new List<Announcement>();
-
-        recent.RemoveAll(a => a.AnnouncementId == announcement.AnnouncementId);
-        recent.Insert(0, announcement);
-
-        if (recent.Count > RecentAnnouncementsLimit)
-        {
-            recent = recent.Take(RecentAnnouncementsLimit).ToList();
-        }
-
-        _cache.Set(AnnouncementCacheKeys.RecentAnnouncements, recent, CacheExpiration);
-    }
-
-    private void RemoveFromCache(Guid announcementId)
-    {
-        _cache.Remove(AnnouncementCacheKeys.ById(announcementId));
-        _cache.Remove(AnnouncementCacheKeys.RecentAnnouncements);
     }
 }

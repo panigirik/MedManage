@@ -1,5 +1,6 @@
 using Castle.DynamicProxy;
 using MedManage.Domain.Interfaces;
+using MedManage.Persistence.Caching;
 using MedManage.Persistence.Repositories;
 using MedManage.Persistence.Transactions;
 using Microsoft.Extensions.DependencyInjection;
@@ -8,28 +9,34 @@ namespace MedManage.Persistence.Extensions;
 
 internal static class RepositoryRegistrationExtensions
 {
-    public static IServiceCollection AddTransactionalRepositories(this IServiceCollection services)
+    public static IServiceCollection AddProxiedRepositories(this IServiceCollection services)
     {
         services.AddSingleton<ProxyGenerator>();
         services.AddScoped<TransactionInterceptor>();
+        services.AddScoped<CachingInterceptor>();
 
         services.AddScoped<IUserRepository>(provider =>
-            CreateTransactionalProxy<IUserRepository, UserRepository>(provider));
+            CreateProxiedRepository<IUserRepository, UserRepository>(provider,
+            provider.GetRequiredService<CachingInterceptor>(),
+            provider.GetRequiredService<TransactionInterceptor>()));
 
         services.AddScoped<IAnnouncementRepository>(provider =>
-            CreateTransactionalProxy<IAnnouncementRepository, AnnouncementRepository>(provider));
+            CreateProxiedRepository<IAnnouncementRepository, AnnouncementRepository>(provider,
+            provider.GetRequiredService<CachingInterceptor>(),
+            provider.GetRequiredService<TransactionInterceptor>()));
+
 
         return services;
     }
 
-    private static TInterface CreateTransactionalProxy<TInterface, TImplementation>(IServiceProvider provider)
-    where TInterface : class
-    where TImplementation : class, TInterface
+    private static TInterface CreateProxiedRepository<TInterface, TImplementation>(
+        IServiceProvider provider,
+        params IInterceptor[] interceptors)
+        where TInterface : class
+        where TImplementation : class, TInterface
     {
         var proxyGenerator = provider.GetRequiredService<ProxyGenerator>();
         var target = ActivatorUtilities.CreateInstance<TImplementation>(provider);
-        var interceptor = provider.GetRequiredService<TransactionInterceptor>();
-
-        return proxyGenerator.CreateInterfaceProxyWithTarget<TInterface>(target, interceptor);
+        return proxyGenerator.CreateInterfaceProxyWithTarget<TInterface>(target, interceptors);
     }
 }

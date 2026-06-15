@@ -53,6 +53,13 @@ public class InMemoryCache : IInMemoryCache
         return true;
     }
 
+    public void RemoveByPrefix(string prefix)
+    {
+        var keysToRemove = _entries.Keys.Where(k => k.StartsWith(prefix)).ToList();
+        foreach (var key in keysToRemove)
+            _entries.TryRemove(key, out _);
+    }
+
     public void Clear()
     {
         _entries.Clear();

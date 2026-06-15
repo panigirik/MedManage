@@ -23,7 +23,7 @@ public static class ServiceCollectionExtensions
 
         services.AddSingleton<IInMemoryCache, InMemoryCache>();
 
-        services.AddTransactionalRepositories();
+        services.AddProxiedRepositories();
         services.AddScoped<MigrationService>();
         services.AddScoped<IDataSeeder, AdminUserSeeder>();
 

@@ -27,6 +27,24 @@ public class User
         CreatedAt = DateTime.UtcNow;
     }
 
+    public User(
+    Guid userId,
+    string userName,
+    string fullName,
+    UserRole role,
+    string phoneNumber,
+    DateTime createdAt,
+    Guid? organizationId = null)
+    {
+        UserId = userId;
+        UserName = userName;
+        FullName = fullName;
+        Role = role;
+        PhoneNumber = phoneNumber;
+        CreatedAt = createdAt;
+        OrganizationId = organizationId;
+    }
+
     /// <summary>
     /// Уникальный идентификатор пользователя.
     /// </summary>

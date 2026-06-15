@@ -1,13 +1,18 @@
 using System.Data;
 using System.Reflection;
+using System.Collections.Concurrent;
 using Castle.DynamicProxy;
 using MedManage.Persistence.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace MedManage.Persistence.Transactions;
 
 public class TransactionInterceptor : IInterceptor
 {
     private readonly IAppDbContext _context;
+
+    // Кеш для готовых generic-методов InterceptAsyncWithResult<T>
+    private static readonly ConcurrentDictionary<Type, MethodInfo> _cachedAsyncHandlers = new();
 
     public TransactionInterceptor(IAppDbContext context)
     {
@@ -18,6 +23,13 @@ public class TransactionInterceptor : IInterceptor
     {
         var attribute = GetTransactionalAttribute(invocation);
         if (attribute is null)
+        {
+            invocation.Proceed();
+            return;
+        }
+
+        // Если уже есть активная транзакция, не создаём новую
+        if (HasActiveTransaction())
         {
             invocation.Proceed();
             return;
@@ -34,15 +46,18 @@ public class TransactionInterceptor : IInterceptor
         if (returnType.IsGenericType && returnType.GetGenericTypeDefinition() == typeof(Task<>))
         {
             var resultType = returnType.GenericTypeArguments[0];
-            var method = typeof(TransactionInterceptor)
-                .GetMethod(nameof(InterceptAsyncWithResult), BindingFlags.Instance | BindingFlags.NonPublic)!
-                .MakeGenericMethod(resultType);
-
-            invocation.ReturnValue = method.Invoke(this, [invocation, attribute.IsolationLevel]);
+            var method = GetOrCreateAsyncHandler(resultType);
+            invocation.ReturnValue = method.Invoke(this, new object[] { invocation, attribute.IsolationLevel });
             return;
         }
 
         InterceptSync(invocation, attribute.IsolationLevel);
+    }
+
+    private bool HasActiveTransaction()
+    {
+        // Пытаемся получить текущую транзакцию из DbContext
+        return (_context as DbContext)?.Database.CurrentTransaction != null;
     }
 
     private static TransactionalAttribute? GetTransactionalAttribute(IInvocation invocation)
@@ -100,5 +115,16 @@ public class TransactionInterceptor : IInterceptor
             await transaction.RollbackAsync();
             throw;
         }
+    }
+
+    // Получение или создание сконструированного метода InterceptAsyncWithResult<T> для заданного типа T
+    private static MethodInfo GetOrCreateAsyncHandler(Type resultType)
+    {
+        return _cachedAsyncHandlers.GetOrAdd(resultType, static type =>
+        {
+            var method = typeof(TransactionInterceptor)
+                .GetMethod(nameof(InterceptAsyncWithResult), BindingFlags.Instance | BindingFlags.NonPublic)!;
+            return method.MakeGenericMethod(type);
+        });
     }
 }

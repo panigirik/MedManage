@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MedManage.Persistence")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+09204b06c4c8e159fc732de07430e18d7e05f42e")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+dfa2cfd89e803bb420e0dec3e6ea694a9cf8c52f")]
 [assembly: System.Reflection.AssemblyProductAttribute("MedManage.Persistence")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MedManage.Persistence")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
