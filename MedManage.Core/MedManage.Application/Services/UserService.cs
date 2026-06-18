@@ -1,4 +1,5 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using MedManage.Application.DTOs;
@@ -29,8 +30,9 @@ namespace MedManage.Application.Services
         }
 
         /// <inheritdoc />
-        public async Task<IEnumerable<UserDTO>> GetAllUsersExceptAsync(Guid userId)
+        public async Task<IEnumerable<UserDTO>> GetAllUsersExceptAsync()
         {
+            var userId = GetCurrentUserId();
             var users = await _userRepository.GetAllUsersAsync();
             var filteredUsers = users.Where(u => u.UserId != userId);
 
@@ -51,10 +53,19 @@ namespace MedManage.Application.Services
             await _userRepository.UpdateAsync(existingUser);
         }
 
-        public async Task<UserDTO> GetCurrentUserAsync(Guid userId)
+        public async Task<UserDTO> GetCurrentUserAsync()
         {
+            var userId = GetCurrentUserId();
             var user = await _userRepository.GetUserByIdAsync(userId);
             return _mapper.Map<UserDTO>(user);
+        }
+        
+        private Guid GetCurrentUserId()
+        {
+            var userIdClaim = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (!Guid.TryParse(userIdClaim, out var userId))
+                throw new UnauthorizedAccessException("Invalid user");
+            return userId;
         }
         
         public async Task UpdateUserRoleAsync(UserDTO updatedUser, UserRole newRole)

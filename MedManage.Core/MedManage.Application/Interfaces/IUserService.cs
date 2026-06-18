@@ -9,9 +9,9 @@ namespace MedManage.Application.Interfaces;
 public interface IUserService
 {
     /// <summary>
-    /// Получить всех пользователей, кроме указанного.
+    /// Получить всех пользователей, кроме текущего.
     /// </summary>
-    Task<IEnumerable<UserDTO>> GetAllUsersExceptAsync(Guid userId);
+    Task<IEnumerable<UserDTO>> GetAllUsersExceptAsync();
 
     /// <summary>
     /// Обновить информацию о пользователе.
@@ -20,7 +20,7 @@ public interface IUserService
 
     Task UpdateUserRoleAsync(UserDTO updatedUser, UserRole newRole);
 
-    Task<UserDTO> GetCurrentUserAsync(Guid userId);
+    Task<UserDTO> GetCurrentUserAsync();
     
     /// <summary>
     /// Получить имя пользователя из токена.
