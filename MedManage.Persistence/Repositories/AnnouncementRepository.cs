@@ -1,204 +1,167 @@
-﻿using Microsoft.EntityFrameworkCore;
 using MedManage.Domain.Entities;
 using MedManage.Domain.Enums;
 using MedManage.Domain.Interfaces;
+using MedManage.Persistence.Caching;
 using MedManage.Persistence.Data;
-using Microsoft.EntityFrameworkCore.Query;
+using MedManage.Persistence.Transactions;
+using Microsoft.EntityFrameworkCore;
 
-namespace MedManage.Persistence.Repositories
+namespace MedManage.Persistence.Repositories;
+
+/// <summary>
+/// Репозиторий для работы с сущностью объявлений.
+/// </summary>
+public class AnnouncementRepository : IAnnouncementRepository
 {
-    /// <summary>
-    /// Репозиторий для работы с сущностью объявлений.
-    /// Реализует интерфейс <see cref="IAnnouncementRepository"/>.
-    /// </summary>
-    public class AnnouncementRepository : IAnnouncementRepository
+    private const int RecentAnnouncementsLimit = 20;
+
+    private readonly IAppDbContext _context;
+    private readonly IInMemoryCache _cache; // только для массовой инвалидации в GetPaginated
+
+    public AnnouncementRepository(IAppDbContext context, IInMemoryCache cache)
     {
-        private readonly AnnouncementDbContext _context;
+        _context = context;
+        _cache = cache;
+    }
 
-        /// <summary>
-        /// Конструктор класса <see cref="AnnouncementRepository"/>.
-        /// </summary>
-        /// <param name="context">Контекст базы данных.</param>
-        public AnnouncementRepository(AnnouncementDbContext context)
+    [Cache("RecentAnnouncements", ExpirationSeconds = 300)] // 5 минут
+    public async Task<IEnumerable<Announcement>> GetAllAsync()
+    {
+        return await _context.Announcements
+            .Include(a => a.User)
+            .OrderByDescending(a => a.CreatedAt)
+            .Take(RecentAnnouncementsLimit)
+            .ToListAsync();
+    }
+
+    [Cache("ById:{announcementId}", ExpirationSeconds = 1800)] // 30 минут
+    public async Task<Announcement> GetByIdAsync(Guid announcementId)
+    {
+        return await _context.Announcements
+            .Include(a => a.User)
+            .FirstOrDefaultAsync(a => a.AnnouncementId == announcementId);
+    }
+
+    [Transactional]
+    [CacheInvalidate("RecentAnnouncements", "ById:*")] // сбрасываем список и все кешированные объявления
+    public IQueryable<Announcement> GetPaginated(
+        int pageNumber,
+        int pageSize,
+        TypeOfSort sortBy,
+        string searchFilter,
+        ProductType productType,
+        InventoryStatus inventoryStatus)
+    {
+        var announcements = _context.Announcements
+            .Include(a => a.User)
+            .AsQueryable();
+
+        if (productType != ProductType.All)
+            announcements = announcements.Where(a => a.TypeProduct == productType);
+
+        if (inventoryStatus != InventoryStatus.All)
+            announcements = announcements.Where(a => a.StatusInventory == inventoryStatus);
+
+        if (!string.IsNullOrWhiteSpace(searchFilter))
+            announcements = announcements.Where(a =>
+                a.Title.Contains(searchFilter) || a.Content.Contains(searchFilter));
+
+        announcements = sortBy switch
         {
-            _context = context;
+            TypeOfSort.ByCategory => announcements.OrderByDescending(a => a.StatusInventory),
+            TypeOfSort.ByDate => announcements.OrderByDescending(a => a.CreatedAt),
+            _ => announcements.OrderByDescending(a => a.CreatedAt)
+        };
+
+        var paginatedAnnouncements = announcements
+            .Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize)
+            .ToList();
+
+        foreach (var announcement in paginatedAnnouncements)
+        {
+            announcement.Views++;
+            _context.Announcements.Update(announcement);
         }
 
-        /// <summary>
-        /// Получить все объявления.
-        /// </summary>
-        /// <returns>Список всех объявлений.</returns>
-        public async Task<IEnumerable<Announcement>> GetAllAsync()
-        {
-            return await _context.Announcements
-                .Include(a => a.User) // Включаем пользователя, который создал объявление
-                .OrderBy(a => a.CreatedAt) // Сортировка по дате создания
-                .ToListAsync();
-        }
+        _context.SaveChanges();
 
-        /// <summary>
-        /// Получить объявление по идентификатору.
-        /// </summary>
-        /// <param name="announcementId">Идентификатор объявления.</param>
-        /// <returns>Объект объявления.</returns>
-        public async Task<Announcement> GetByIdAsync(Guid announcementId)
-        {
-            return await _context.Announcements
-               .FirstOrDefaultAsync(a => a.AnnouncementId == announcementId); // Поиск по идентификатору
-        }
+        // массовая инвалидация (дублирует атрибут, но атрибут сработает после метода)
+        _cache.RemoveByPrefix("ById:");
+        _cache.Remove(AnnouncementCacheKeys.RecentAnnouncements);
 
-        /// <summary>
-        /// Получить объявления с пагинацией и фильтрацией.
-        /// </summary>
-        /// <param name="pageNumber">Номер страницы.</param>
-        /// <param name="pageSize">Размер страницы.</param>
-        /// <param name="searchFilter">Текст для поиска в заголовке и содержимом.</param>
-        /// <param name="productType">Тип продукта для фильтрации.</param>
-        /// <param name="inventoryStatus">Статус инвентаря для фильтрации.</param>
-        /// <param name="sortBy">Статус инвентаря для фильтрации.</param>
-        /// <returns>Отфильтрованные и отсортированные объявления.</returns>
-        public IQueryable<Announcement> GetPaginated(
-            int pageNumber,
-            int pageSize,
-            TypeOfSort sortBy,
-            string searchFilter,
-            ProductType productType,
-            InventoryStatus inventoryStatus)
-        {
-            var announcements = _context.Announcements
-                .Include(p => p.User) // Включаем пользователя
-                .AsQueryable();
+        return announcements
+            .Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize);
+    }
 
-            // Фильтрация по типу продукта
-            if (productType != ProductType.All)
-            {
-                announcements = announcements.Where(a => a.TypeProduct == productType);
-            }
+    [Transactional]
+    [CacheInvalidate("RecentAnnouncements", "ById:*")]
+    public async Task<Announcement> CreateAsync(
+        string title,
+        string content,
+        Guid createdByUserId,
+        InventoryStatus statusInventory,
+        ProductType typeProduct,
+        Guid? organizationId = null,
+        DateTimeOffset? expirationDate = null)
+    {
+        var announcement = new Announcement(
+            title,
+            content,
+            createdByUserId,
+            statusInventory,
+            typeProduct,
+            organizationId,
+            expirationDate);
 
-            // Фильтрация по статусу инвентаря
-            if (inventoryStatus != InventoryStatus.All)
-            {
-                announcements = announcements.Where(a => a.StatusInventory == inventoryStatus);
-            }
+        await _context.Announcements.AddAsync(announcement);
+        await _context.SaveChangesAsync();
 
-            // Фильтрация по тексту
-            if (!string.IsNullOrWhiteSpace(searchFilter))
-            {
-                announcements = announcements.Where(a => a.Title.Contains(searchFilter) || a.Content.Contains(searchFilter));
-            }
+        var announcementWithUser = await _context.Announcements
+            .Include(a => a.User)
+            .FirstAsync(a => a.AnnouncementId == announcement.AnnouncementId);
 
-            // Сортировка по выбранному параметру
-            switch (sortBy)
-            {
-                case TypeOfSort.ByCategory:
-                    announcements = announcements.OrderByDescending(p => p.StatusInventory);
-                    break;
-                case TypeOfSort.ByDate:
-                    announcements = announcements.OrderByDescending(p => p.CreatedAt);
-                    break;
-                default:
-                    announcements = announcements.OrderByDescending(p => p.CreatedAt);
-                    break;
-            }
+        return announcementWithUser;
+    }
 
-            // Получаем список объявлений для пагинации
-            
-            var paginatedAnnouncements = announcements
-                .Skip((pageNumber - 1) * pageSize)
-                .Take(pageSize)
-                .ToList();
-            
-            foreach (var announcement in paginatedAnnouncements)
-            {
-                announcement.Views++;
-                _context.Announcements.Update(announcement);
-            }
-            
-            // Сохраняем изменения в базе данных
-            _context.SaveChangesAsync();
-            
-            // Обновляем количество просмотров для всех записей
-            var paginatedAnnouncementss = announcements
-                .Skip((pageNumber - 1) * pageSize)
-                .Take(pageSize)
-                .AsQueryable();
-                 // Асинхронно загружаем нужные записи для отображения
+    [Transactional]
+    [CacheInvalidate("RecentAnnouncements", "ById:*")]
+    public async Task UpdateAsync(Announcement announcement)
+    {
+        _context.Announcements.Update(announcement);
+        await _context.SaveChangesAsync();
+    }
 
-            // Возвращаем обновленные объявления с пагинацией
-            return paginatedAnnouncementss;
-        }
+    [Transactional]
+    [CacheInvalidate("RecentAnnouncements", "ById:*")]
+    public async Task DeleteAsync(Announcement announcement)
+    {
+        _context.Announcements.Remove(announcement);
+        await _context.SaveChangesAsync();
+    }
 
+    public async Task<IEnumerable<Announcement>> GetAnnouncementsByAuthorAsync(string authorName)
+    {
+        return await _context.Announcements
+            .Include(a => a.User)
+            .Where(a => a.User.FullName.Contains(authorName))
+            .OrderByDescending(a => a.CreatedAt)
+            .ToListAsync();
+    }
 
+    public async Task<IEnumerable<Announcement>> GetAnnouncementsByDateAsync(DateTime date)
+    {
+        return await _context.Announcements
+            .Where(a => a.CreatedAt.Date == date.Date)
+            .OrderByDescending(a => a.CreatedAt)
+            .ToListAsync();
+    }
 
-        /// <summary>
-        /// Создать новое объявление.
-        /// </summary>
-        /// <param name="announcement">Объявление для добавления.</param>
-        /// <returns>Задача для асинхронного выполнения.</returns>
-        public async Task CreateAsync(Announcement announcement)
-        {
-            await _context.Announcements.AddAsync(announcement); // Добавляем объявление в контекст
-            await _context.SaveChangesAsync(); // Сохраняем изменения
-        }
-
-        /// <summary>
-        /// Обновить существующее объявление.
-        /// </summary>
-        /// <param name="announcement">Обновленное объявление.</param>
-        /// <returns>Задача для асинхронного выполнения.</returns>
-        public async Task UpdateAsync(Announcement announcement)
-        {
-            _context.Announcements.Update(announcement); // Обновляем объявление в контексте
-            await _context.SaveChangesAsync(); // Сохраняем изменения
-        }
-
-        /// <summary>
-        /// Удалить объявление.
-        /// </summary>
-        /// <param name="announcement">Объявление для удаления.</param>
-        /// <returns>Задача для асинхронного выполнения.</returns>
-        public async Task DeleteAsync(Announcement announcement)
-        {
-            _context.Announcements.Remove(announcement); // Удаляем объявление из контекста
-            await _context.SaveChangesAsync(); // Сохраняем изменения
-        }
-
-        /// <summary>
-        /// Получить все объявления, созданные автором.
-        /// </summary>
-        /// <param name="authorName">Имя автора для фильтрации.</param>
-        /// <returns>Список объявлений, созданных автором.</returns>
-        public async Task<IEnumerable<Announcement>> GetAnnouncementsByAuthorAsync(string authorName)
-        {
-            return await _context.Announcements
-                .Where(a => a.User.FullName.Contains(authorName)) // Фильтрация по имени автора
-                .OrderByDescending(a => a.CreatedAt) // Сортировка по дате создания
-                .ToListAsync();
-        }
-
-        /// <summary>
-        /// Получить все объявления, созданные в определенную дату.
-        /// </summary>
-        /// <param name="date">Дата для фильтрации.</param>
-        /// <returns>Список объявлений, созданных в указанную дату.</returns>
-        public async Task<IEnumerable<Announcement>> GetAnnouncementsByDateAsync(DateTime date)
-        {
-            return await _context.Announcements
-                .Where(a => a.CreatedAt.Date == date.Date) // Фильтрация по дате
-                .OrderByDescending(a => a.CreatedAt) // Сортировка по дате создания
-                .ToListAsync();
-        }
-
-        /// <summary>
-        /// Найти объявления по содержимому.
-        /// </summary>
-        /// <param name="content">Текст для поиска в содержимом.</param>
-        /// <returns>Список объявлений, содержащих текст.</returns>
-        public async Task<IEnumerable<Announcement>> SearchAnnouncementsByContentAsync(string content)
-        {
-            return await _context.Announcements
-                .Where(a => a.Content.Contains(content)) // Фильтрация по содержимому
-                .ToListAsync();
-        }
+    public async Task<IEnumerable<Announcement>> SearchAnnouncementsByContentAsync(string content)
+    {
+        return await _context.Announcements
+            .Where(a => a.Content.Contains(content))
+            .ToListAsync();
     }
 }

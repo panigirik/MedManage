@@ -33,7 +33,7 @@ public interface IAnnouncementService
     /// <summary>
     /// Создать новое объявление.
     /// </summary>
-    Task CreateNewAnnouncementAsync(AnnouncementDTO announcementRequest, Guid userId);
+    Task<AnnouncementDTO> CreateNewAnnouncementAsync(AnnouncementDTO announcementRequest);
 
     /// <summary>
     /// Изменить содержимое объявления.

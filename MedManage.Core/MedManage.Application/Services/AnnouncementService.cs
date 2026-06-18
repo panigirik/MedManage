@@ -1,4 +1,4 @@
-﻿using System.IdentityModel.Tokens.Jwt;
+using System.IdentityModel.Tokens.Jwt;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +9,8 @@ using MedManage.Application.Interfaces;
 using MedManage.Domain.Entities;
 using MedManage.Domain.Interfaces;
 using MedManage.Domain.Enums;
+using Microsoft.AspNetCore.Http;
+using System.Security.Claims;
 
 namespace MedManage.Application.Services
 {
@@ -48,6 +50,8 @@ namespace MedManage.Application.Services
         public async Task<AnnouncementDTO> GetAnnouncementByIdAsync(Guid announcementId)
         {
             var announcement = await _announcementRepository.GetByIdAsync(announcementId);
+            if (announcement == null)
+                throw new AnnouncementNotFoundException($"Объявление с ID {announcementId} не найдено.");
             return _mapper.Map<AnnouncementDTO>(announcement);
         }
 
@@ -74,15 +78,26 @@ namespace MedManage.Application.Services
         }
 
         /// <inheritdoc />
-        public async Task CreateNewAnnouncementAsync(AnnouncementDTO announcementRequest, Guid userId)
+        public async Task<AnnouncementDTO> CreateNewAnnouncementAsync(AnnouncementDTO announcementRequest)
         {
+            var userIdClaim = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (!Guid.TryParse(userIdClaim, out var userId))
+                throw new UnauthorizedAccessException("Invalid UserId");
+
             var user = await _userRepository.GetByIdAsync(userId);
             if (user == null) throw new InvalidOperationException("Пользователь не найден.");
 
-            Announcement announcement = _mapper.Map<Announcement>(announcementRequest);
-            announcement.UserName = user.UserName; 
+            announcementRequest.AnnouncementId = Guid.NewGuid();
+            await _announcementRepository.CreateAsync(
+                announcementRequest.Title,
+                announcementRequest.Content,
+                userId,
+                announcementRequest.StatusInventory,
+                announcementRequest.TypeProduct,
+                user.OrganizationId,
+                announcementRequest.ExpirationDate);
 
-            await _announcementRepository.CreateAsync(announcement);
+            return announcementRequest;
         }
 
 

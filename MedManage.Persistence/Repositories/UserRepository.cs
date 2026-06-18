@@ -1,86 +1,71 @@
-﻿using MedManage.Domain.Entities;
+using MedManage.Domain.Entities;
+using MedManage.Domain.Enums;
 using MedManage.Domain.Interfaces;
+using MedManage.Persistence.Caching;
 using MedManage.Persistence.Data;
+using MedManage.Persistence.Transactions;
 using Microsoft.EntityFrameworkCore;
 
-namespace MedManage.Persistence.Repositories
+namespace MedManage.Persistence.Repositories;
+
+/// <summary>
+/// Репозиторий для работы с сущностью пользователей.
+/// </summary>
+public class UserRepository : IUserRepository
 {
-    /// <summary>
-    /// Репозиторий для работы с сущностью пользователей.
-    /// Реализует интерфейс <see cref="IUserRepository"/>.
-    /// </summary>
-    public class UserRepository : IUserRepository
+    private readonly IAppDbContext _context;
+
+    public UserRepository(IAppDbContext context)
     {
-        private readonly UserDbContext _context;
+        _context = context;
+    }
 
-        /// <summary>
-        /// Конструктор класса <see cref="UserRepository"/>.
-        /// </summary>
-        /// <param name="context">Контекст базы данных для пользователей.</param>
-        public UserRepository(UserDbContext context)
-        {
-            _context = context;
-        }
+    [Cache("UserById:{userId}", ExpirationSeconds = 1800)] // 30 минут
+    public async Task<User> GetUserByIdAsync(Guid userId)
+    {
+        return await _context.Users.FindAsync(userId);
+    }
 
-        public async Task<User> GetUserByIdAsync(Guid userId)
-        {
-            return await _context.User.FindAsync(userId);
-        }
-        
-        /// <summary>
-        /// Получить всех пользователей.
-        /// </summary>
-        /// <returns>Список всех пользователей.</returns>
-        public async Task<IEnumerable<User>> GetAllUsersAsync()
-        {
-            return await _context.User.ToListAsync(); // Возвращаем всех пользователей из базы данных
-        }
+    [Cache("AllUsers", ExpirationSeconds = 600)] // 10 минут
+    public async Task<IEnumerable<User>> GetAllUsersAsync()
+    {
+        return await _context.Users.ToListAsync();
+    }
 
-        /// <summary>
-        /// Получить пользователя по его идентификатору.
-        /// </summary>
-        /// <param name="userId">Идентификатор пользователя.</param>
-        /// <returns>Пользователь с указанным идентификатором.</returns>
+    [Cache("AllUsers", ExpirationSeconds = 600)]
+    public async Task<IEnumerable<User>> GetAllAsync()
+    {
+        return await _context.Users.ToListAsync();
+    }
 
-        /// <summary>
-        /// Получить всех пользователей (дублирующий метод).
-        /// </summary>
-        /// <returns>Список всех пользователей.</returns>
-        public async Task<IEnumerable<User>> GetAllAsync()
-        {
-            return await _context.User.ToListAsync(); // Возвращаем всех пользователей
-        }
+    [Transactional]
+    [CacheInvalidate("AllUsers", "UserById:{user.Id}")]
+    public async Task UpdateAsync(User user)
+    {
+        _context.Users.Update(user);
+        await _context.SaveChangesAsync();
+    }
 
-        /// <summary>
-        /// Обновить информацию о пользователе.
-        /// </summary>
-        /// <param name="user">Пользователь с обновленной информацией.</param>
-        /// <returns>Задача для асинхронного выполнения.</returns>
-        public async Task UpdateAsync(User user)
-        {
-            _context.User.Update(user); // Обновляем пользователя в контексте
-            await _context.SaveChangesAsync(); // Сохраняем изменения
-        }
+    [Cache("UserById:{userId}", ExpirationSeconds = 1800)]
+    public async Task<User> GetByIdAsync(Guid userId)
+    {
+        return await _context.Users.FindAsync(userId);
+    }
 
-        /// <summary>
-        /// Получить пользователя по его идентификатору (дублирующий метод).
-        /// </summary>
-        /// <param name="userId">Идентификатор пользователя.</param>
-        /// <returns>Пользователь с указанным идентификатором.</returns>
-        public async Task<User> GetByIdAsync(Guid userId)
-        {
-            return await _context.User.FindAsync(userId); // Ищем пользователя по идентификатору
-        }
+    [Transactional]
+    [CacheInvalidate("AllUsers")] // Сбрасываем список, т.к. появился новый пользователь
+    public async Task<User> AddAsync(
+        string userName,
+        string fullName,
+        UserRole role,
+        string phoneNumber,
+        Guid? organizationId = null)
+    {
+        var user = new User(userName, fullName, role, phoneNumber, organizationId);
 
-        /// <summary>
-        /// Добавить нового пользователя.
-        /// </summary>
-        /// <param name="user">Пользователь, которого нужно добавить.</param>
-        /// <returns>Задача для асинхронного выполнения.</returns>
-        public async Task AddAsync(User user)
-        {
-            await _context.User.AddAsync(user); // Добавляем пользователя в контекст
-            await _context.SaveChangesAsync(); // Сохраняем изменения в базе данных
-        }
+        await _context.Users.AddAsync(user);
+        await _context.SaveChangesAsync();
+
+        return user;
     }
 }

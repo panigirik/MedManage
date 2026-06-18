@@ -19,3 +19,16 @@ C:\Users\Admin\RiderProjects\MedManage\MedManage.Core\MedManage.Domain\obj\Debug
 C:\Users\Admin\RiderProjects\MedManage\MedManage.Core\MedManage.Domain\obj\Debug\net8.0\MedManage.Domain.pdb
 C:\Users\Admin\RiderProjects\MedManage\MedManage.Core\MedManage.Domain\obj\Debug\net8.0\ref\MedManage.Domain.dll
 C:\Users\Admin\RiderProjects\MedManage\MedManage.Core\MedManage.Domain\obj\Debug\net8.0\MedManage.Domain.csproj.AssemblyReference.cache
+D:\laba\практика\MedManage.Core\MedManage.Domain\bin\Debug\net8.0\MedManage.Domain.deps.json
+D:\laba\практика\MedManage.Core\MedManage.Domain\bin\Debug\net8.0\MedManage.Domain.dll
+D:\laba\практика\MedManage.Core\MedManage.Domain\bin\Debug\net8.0\MedManage.Domain.pdb
+D:\laba\практика\MedManage.Core\MedManage.Domain\obj\Debug\net8.0\MedManage.Domain.csproj.AssemblyReference.cache
+D:\laba\практика\MedManage.Core\MedManage.Domain\obj\Debug\net8.0\MedManage.Domain.GeneratedMSBuildEditorConfig.editorconfig
+D:\laba\практика\MedManage.Core\MedManage.Domain\obj\Debug\net8.0\MedManage.Domain.AssemblyInfoInputs.cache
+D:\laba\практика\MedManage.Core\MedManage.Domain\obj\Debug\net8.0\MedManage.Domain.AssemblyInfo.cs
+D:\laba\практика\MedManage.Core\MedManage.Domain\obj\Debug\net8.0\MedManage.Domain.csproj.CoreCompileInputs.cache
+D:\laba\практика\MedManage.Core\MedManage.Domain\obj\Debug\net8.0\MedManage.Domain.sourcelink.json
+D:\laba\практика\MedManage.Core\MedManage.Domain\obj\Debug\net8.0\MedManage.Domain.dll
+D:\laba\практика\MedManage.Core\MedManage.Domain\obj\Debug\net8.0\refint\MedManage.Domain.dll
+D:\laba\практика\MedManage.Core\MedManage.Domain\obj\Debug\net8.0\MedManage.Domain.pdb
+D:\laba\практика\MedManage.Core\MedManage.Domain\obj\Debug\net8.0\ref\MedManage.Domain.dll

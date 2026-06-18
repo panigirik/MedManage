@@ -19,10 +19,18 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IAnnouncementService, AnnouncementService>();
         services.AddScoped<IUserService, UserService>();
 
-        services.AddAutoMapper(typeof(UserMappingProfile));
+        services.AddAutoMapper(cfg =>
+        {
+            cfg.AddProfile<UserMappingProfile>();
+            cfg.AddProfile<ProductMappingProfile>();
+            cfg.AddProfile<InventoryMappingProfile>();
+            cfg.AddProfile<OrganizationMappingProfile>();
+            cfg.AddProfile<AnnouncementMappingProfile>();
+        });
+        /*services.AddAutoMapper(typeof(UserMappingProfile).Assembly);
         services.AddAutoMapper(typeof(ProductMappingProfile));
         services.AddAutoMapper(typeof(InventoryMappingProfile));
         services.AddAutoMapper(typeof(OrganizationMappingProfile));
-        services.AddAutoMapper(typeof(AnnouncementMappingProfile));
+        services.AddAutoMapper(typeof(AnnouncementMappingProfile));*/
     }
 }

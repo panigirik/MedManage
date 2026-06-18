@@ -1,39 +1,39 @@
-﻿using Microsoft.EntityFrameworkCore;
 using MedManage.Persistence.Data;
+using MedManage.Persistence.Seeders;
+using Microsoft.EntityFrameworkCore;
 
+namespace MedManage.Persistence.Migrations;
 
-namespace MedManage.Infrastructure.Migrations
+public class MigrationService
 {
-    public class MigrationService
+    private readonly AppDbContext _dbContext;
+    private readonly IEnumerable<IDataSeeder> _seeders;
+    private readonly ILogger<MigrationService> _logger;
+
+    public MigrationService(AppDbContext dbContext,
+                            IEnumerable<IDataSeeder> seeders,
+                            ILogger<MigrationService> logger)
     {
-        private readonly OrganizationDbContext _organizationDbContext;
-        private readonly UserDbContext _userDbContext;
-        private readonly ProductDbContext _productDbContext;
-        private readonly InventoryDbContext _inventoryDbContext;
-        private readonly AnnouncementDbContext _announcementDbContext;
+        _dbContext = dbContext;
+        _seeders = seeders;
+        _logger = logger;
+    }
 
-        public MigrationService(
-            OrganizationDbContext organizationDbContext,
-            UserDbContext userDbContext,
-            ProductDbContext productDbContext,
-            InventoryDbContext inventoryDbContext,
-            AnnouncementDbContext announcementDbContext)
+    public void InitializeDatabase()
+    {
+        try
         {
-            _organizationDbContext = organizationDbContext;
-            _userDbContext = userDbContext;
-            _productDbContext = productDbContext;
-            _inventoryDbContext = inventoryDbContext;
-            _announcementDbContext = announcementDbContext;
+            _dbContext.Database.Migrate();
+
+            foreach (var seeder in _seeders)
+            {
+                seeder.SeedAsync().GetAwaiter().GetResult();
+            }
         }
-
-        public void MigrateAll()
+        catch (Exception ex)
         {
-            _organizationDbContext.Database.Migrate();
-            _userDbContext.Database.Migrate();
-            _productDbContext.Database.Migrate();
-            _inventoryDbContext.Database.Migrate();
-            _announcementDbContext.Database.Migrate();
-            
+            _logger.LogError(ex, "Ошибка при инициализации базы данных (миграции или сидирование)");
+            throw; // Пробрасываем исключение дальше, чтобы приложение не стартовало с неготовой БД
         }
     }
 }

@@ -1,0 +1,308 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v10.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v10.0": {
+      "MedManage.Application/1.0.0": {
+        "dependencies": {
+          "MedManage.Domain": "1.0.0",
+          "MedManage.Persistence": "1.0.0",
+          "System.IdentityModel.Tokens.Jwt": "8.19.1"
+        },
+        "runtime": {
+          "MedManage.Application.dll": {}
+        }
+      },
+      "AutoMapper/16.1.1": {
+        "dependencies": {
+          "Microsoft.IdentityModel.JsonWebTokens": "8.19.1"
+        },
+        "runtime": {
+          "lib/net10.0/AutoMapper.dll": {
+            "assemblyVersion": "16.0.0.0",
+            "fileVersion": "16.1.1.0"
+          }
+        }
+      },
+      "AutoMapper.Extensions.ExpressionMapping/11.0.0": {
+        "dependencies": {
+          "AutoMapper": "16.1.1"
+        },
+        "runtime": {
+          "lib/net10.0/AutoMapper.Extensions.ExpressionMapping.dll": {
+            "assemblyVersion": "11.0.0.0",
+            "fileVersion": "11.0.0.0"
+          }
+        }
+      },
+      "Castle.Core/5.2.1": {
+        "runtime": {
+          "lib/net6.0/Castle.Core.dll": {
+            "assemblyVersion": "5.0.0.0",
+            "fileVersion": "5.2.1.0"
+          }
+        }
+      },
+      "Microsoft.Bcl.Cryptography/10.0.2": {
+        "runtime": {
+          "lib/net10.0/Microsoft.Bcl.Cryptography.dll": {
+            "assemblyVersion": "10.0.0.2",
+            "fileVersion": "10.0.225.61305"
+          }
+        }
+      },
+      "Microsoft.EntityFrameworkCore/10.0.8": {
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore.Abstractions": "10.0.8"
+        },
+        "runtime": {
+          "lib/net10.0/Microsoft.EntityFrameworkCore.dll": {
+            "assemblyVersion": "10.0.8.0",
+            "fileVersion": "10.0.826.23019"
+          }
+        }
+      },
+      "Microsoft.EntityFrameworkCore.Abstractions/10.0.8": {
+        "runtime": {
+          "lib/net10.0/Microsoft.EntityFrameworkCore.Abstractions.dll": {
+            "assemblyVersion": "10.0.8.0",
+            "fileVersion": "10.0.826.23019"
+          }
+        }
+      },
+      "Microsoft.EntityFrameworkCore.Relational/10.0.4": {
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore": "10.0.8"
+        },
+        "runtime": {
+          "lib/net10.0/Microsoft.EntityFrameworkCore.Relational.dll": {
+            "assemblyVersion": "10.0.4.0",
+            "fileVersion": "10.0.426.12010"
+          }
+        }
+      },
+      "Microsoft.IdentityModel.Abstractions/8.19.1": {
+        "runtime": {
+          "lib/net10.0/Microsoft.IdentityModel.Abstractions.dll": {
+            "assemblyVersion": "8.19.1.0",
+            "fileVersion": "8.19.1.26153"
+          }
+        }
+      },
+      "Microsoft.IdentityModel.JsonWebTokens/8.19.1": {
+        "dependencies": {
+          "Microsoft.IdentityModel.Tokens": "8.19.1"
+        },
+        "runtime": {
+          "lib/net10.0/Microsoft.IdentityModel.JsonWebTokens.dll": {
+            "assemblyVersion": "8.19.1.0",
+            "fileVersion": "8.19.1.26153"
+          }
+        }
+      },
+      "Microsoft.IdentityModel.Logging/8.19.1": {
+        "dependencies": {
+          "Microsoft.IdentityModel.Abstractions": "8.19.1"
+        },
+        "runtime": {
+          "lib/net10.0/Microsoft.IdentityModel.Logging.dll": {
+            "assemblyVersion": "8.19.1.0",
+            "fileVersion": "8.19.1.26153"
+          }
+        }
+      },
+      "Microsoft.IdentityModel.Tokens/8.19.1": {
+        "dependencies": {
+          "Microsoft.Bcl.Cryptography": "10.0.2",
+          "Microsoft.IdentityModel.Logging": "8.19.1"
+        },
+        "runtime": {
+          "lib/net10.0/Microsoft.IdentityModel.Tokens.dll": {
+            "assemblyVersion": "8.19.1.0",
+            "fileVersion": "8.19.1.26153"
+          }
+        }
+      },
+      "Npgsql/10.0.3": {
+        "runtime": {
+          "lib/net10.0/Npgsql.dll": {
+            "assemblyVersion": "10.0.3.0",
+            "fileVersion": "10.0.3.0"
+          }
+        }
+      },
+      "Npgsql.EntityFrameworkCore.PostgreSQL/10.0.2": {
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore": "10.0.8",
+          "Microsoft.EntityFrameworkCore.Relational": "10.0.4",
+          "Npgsql": "10.0.3"
+        },
+        "runtime": {
+          "lib/net10.0/Npgsql.EntityFrameworkCore.PostgreSQL.dll": {
+            "assemblyVersion": "10.0.2.0",
+            "fileVersion": "10.0.2.0"
+          }
+        }
+      },
+      "System.IdentityModel.Tokens.Jwt/8.19.1": {
+        "dependencies": {
+          "Microsoft.IdentityModel.JsonWebTokens": "8.19.1",
+          "Microsoft.IdentityModel.Tokens": "8.19.1"
+        },
+        "runtime": {
+          "lib/net10.0/System.IdentityModel.Tokens.Jwt.dll": {
+            "assemblyVersion": "8.19.1.0",
+            "fileVersion": "8.19.1.26153"
+          }
+        }
+      },
+      "MedManage.Domain/1.0.0": {
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore.Abstractions": "10.0.8",
+          "Npgsql.EntityFrameworkCore.PostgreSQL": "10.0.2"
+        },
+        "runtime": {
+          "MedManage.Domain.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "MedManage.Persistence/1.0.0": {
+        "dependencies": {
+          "AutoMapper": "16.1.1",
+          "AutoMapper.Extensions.ExpressionMapping": "11.0.0",
+          "Castle.Core": "5.2.1",
+          "MedManage.Domain": "1.0.0",
+          "Microsoft.EntityFrameworkCore": "10.0.8",
+          "Microsoft.EntityFrameworkCore.Abstractions": "10.0.8",
+          "Npgsql.EntityFrameworkCore.PostgreSQL": "10.0.2"
+        },
+        "runtime": {
+          "MedManage.Persistence.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "MedManage.Application/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "AutoMapper/16.1.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-VNEky8JA15ci+oIDRGHITOGOpV4dILsf8pnn24QhDl2urtqgJ2IXiS/V2EtGU17P/+f6OeFQPJETaZXV9QOIZg==",
+      "path": "automapper/16.1.1",
+      "hashPath": "automapper.16.1.1.nupkg.sha512"
+    },
+    "AutoMapper.Extensions.ExpressionMapping/11.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-4G7WARcy+SiymoaBrrF5ZLrHgeWWVRD/QJWEnG21yQiAKwgCw3BXdhr+lqnP+8TYJpJ493c0jCn40MnDdVsemQ==",
+      "path": "automapper.extensions.expressionmapping/11.0.0",
+      "hashPath": "automapper.extensions.expressionmapping.11.0.0.nupkg.sha512"
+    },
+    "Castle.Core/5.2.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-wHARzQA695jwwKreOzNsq54KiGqKP38tv8hi8e2FXDEC/sA6BtrX90tVPDkOfVu13PbEzr00TCV8coikl+D1Iw==",
+      "path": "castle.core/5.2.1",
+      "hashPath": "castle.core.5.2.1.nupkg.sha512"
+    },
+    "Microsoft.Bcl.Cryptography/10.0.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-LG9Yll3B5aNpxv0+D47g6LiOiKBIlodhcHdQwcYzo8VeexFLGqx5ymetmA2aBRyo9cCcWsQWrFsdbsr8LvmWDw==",
+      "path": "microsoft.bcl.cryptography/10.0.2",
+      "hashPath": "microsoft.bcl.cryptography.10.0.2.nupkg.sha512"
+    },
+    "Microsoft.EntityFrameworkCore/10.0.8": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-EJx+fIBMgBlgD+ublKCn+GTOJkw3UqV7xOjYWBRVdUYyIm8UfvAsmSOPFiIInsWTHyMEYUJ9gCJY1jwX+6UB7w==",
+      "path": "microsoft.entityframeworkcore/10.0.8",
+      "hashPath": "microsoft.entityframeworkcore.10.0.8.nupkg.sha512"
+    },
+    "Microsoft.EntityFrameworkCore.Abstractions/10.0.8": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-jbKDXWPZQhuPHygMnwzNOqxBADVcpRVytcKYZsA++QqhPkpF93Ta8o5mbJQGrARSjlkr9WtOaADV97EDMOZ7DA==",
+      "path": "microsoft.entityframeworkcore.abstractions/10.0.8",
+      "hashPath": "microsoft.entityframeworkcore.abstractions.10.0.8.nupkg.sha512"
+    },
+    "Microsoft.EntityFrameworkCore.Relational/10.0.4": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-DOTjTHy93W3TwpMLM4SCm0n57Sc0Jj3+m2S6LSTstKyBB34eT1UouaMS19mpWwvtj42+sRiEjA3+rOTNoNzXFQ==",
+      "path": "microsoft.entityframeworkcore.relational/10.0.4",
+      "hashPath": "microsoft.entityframeworkcore.relational.10.0.4.nupkg.sha512"
+    },
+    "Microsoft.IdentityModel.Abstractions/8.19.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-gFA8THIk23uNF/vMdOHnjIdXD1LyA2g12cHzMJ+Xag6WpgWLw6E/6uCXxvA0gp9d2yAvkRt3xzFzMUiO/hofnQ==",
+      "path": "microsoft.identitymodel.abstractions/8.19.1",
+      "hashPath": "microsoft.identitymodel.abstractions.8.19.1.nupkg.sha512"
+    },
+    "Microsoft.IdentityModel.JsonWebTokens/8.19.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-6eeY+y2QFyjj3XnCz/8gJdoP5smYHTS9ow1bw2nsZzDIPjPhBZlackYTIduSMipVpxnoT/B62LkrXX2jPggOXg==",
+      "path": "microsoft.identitymodel.jsonwebtokens/8.19.1",
+      "hashPath": "microsoft.identitymodel.jsonwebtokens.8.19.1.nupkg.sha512"
+    },
+    "Microsoft.IdentityModel.Logging/8.19.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-H+sMrMpdbWnwkQnpb/ESkQovtOgdefmj0ecGCcP40mDKzE5i4dUYkH6599M9mWYFNGNJnTp92l/9wLubYXWimw==",
+      "path": "microsoft.identitymodel.logging/8.19.1",
+      "hashPath": "microsoft.identitymodel.logging.8.19.1.nupkg.sha512"
+    },
+    "Microsoft.IdentityModel.Tokens/8.19.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-KDiuSLXud2AFVNAOottd8ztVysfPeHyr4r8gofU3/VKUXlI7oytzGTnPsNJ/B3nui17rgz8wAdWNJOtzPjkUxw==",
+      "path": "microsoft.identitymodel.tokens/8.19.1",
+      "hashPath": "microsoft.identitymodel.tokens.8.19.1.nupkg.sha512"
+    },
+    "Npgsql/10.0.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-7nb5YzXuvWWJxB0J8DiyL3we+X4FOctZrt0fIBnucOIaIevFEEwGQVZKtiu9olXdlNAK1eNgqSral6r/jlhI4w==",
+      "path": "npgsql/10.0.3",
+      "hashPath": "npgsql.10.0.3.nupkg.sha512"
+    },
+    "Npgsql.EntityFrameworkCore.PostgreSQL/10.0.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-PsNYgPOSW41Xx19gin7y4EdZAPteWr9Cb01XkdObxOsPzi+mgBupBEN7J7+erXFsROPOILM7MlIoO9QzL8+LGQ==",
+      "path": "npgsql.entityframeworkcore.postgresql/10.0.2",
+      "hashPath": "npgsql.entityframeworkcore.postgresql.10.0.2.nupkg.sha512"
+    },
+    "System.IdentityModel.Tokens.Jwt/8.19.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-2VHcRtT95GAcW1E3aVBLvL2rAAMxKHXKMXKXFyWzwgkdFXZPMMvP8tVOfnRydL4vTr1RirNuGC6T8VSEF2YsPQ==",
+      "path": "system.identitymodel.tokens.jwt/8.19.1",
+      "hashPath": "system.identitymodel.tokens.jwt.8.19.1.nupkg.sha512"
+    },
+    "MedManage.Domain/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "MedManage.Persistence/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
