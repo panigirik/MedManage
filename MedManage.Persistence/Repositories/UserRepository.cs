@@ -26,20 +26,18 @@ public class UserRepository : IUserRepository
         return await _context.Users.FindAsync(userId);
     }
 
-    [Cache("AllUsers", ExpirationSeconds = 600)] // 10 минут
     public async Task<IEnumerable<User>> GetAllUsersAsync()
     {
         return await _context.Users.ToListAsync();
     }
 
-    [Cache("AllUsers", ExpirationSeconds = 600)]
     public async Task<IEnumerable<User>> GetAllAsync()
     {
         return await _context.Users.ToListAsync();
     }
 
     [Transactional]
-    [CacheInvalidate("AllUsers", "UserById:{user.Id}")]
+    [CacheInvalidate("UserById:{user.Id}")]
     public async Task UpdateAsync(User user)
     {
         _context.Users.Update(user);
@@ -63,7 +61,6 @@ public class UserRepository : IUserRepository
     }
 
     [Transactional]
-    [CacheInvalidate("AllUsers")] // Сбрасываем список, т.к. появился новый пользователь
     public async Task<User> AddAsync(
         string userName,
         string fullName,

@@ -113,3 +113,61 @@ export const typeOfSortLabels: Record<number, string> = {
   [TypeOfSort.ByDate]: 'По дате',
   [TypeOfSort.ByCategory]: 'По категории',
 };
+
+export const PurchaseRequestStatus = {
+  Pending: 0,
+  Accepted: 1,
+  Rejected: 2,
+} as const;
+export type PurchaseRequestStatus = (typeof PurchaseRequestStatus)[keyof typeof PurchaseRequestStatus];
+
+export const InAppNotificationType = {
+  PurchaseRequest: 0,
+  RequestAccepted: 1,
+  RequestRejected: 2,
+} as const;
+export type InAppNotificationType = (typeof InAppNotificationType)[keyof typeof InAppNotificationType];
+
+export interface PurchaseRequestDTO {
+  purchaseRequestId: string;
+  announcementId?: string | null;
+  buyerUserId: string;
+  sellerUserId: string;
+  status: number;
+  message?: string | null;
+  createdAt: string;
+  updatedAt: string;
+  announcementTitle?: string | null;
+  buyerUserName: string;
+  sellerUserName: string;
+}
+
+export interface InAppNotificationDTO {
+  id: string;
+  recipientUserId: string;
+  senderUserId?: string | null;
+  title: string;
+  message: string;
+  type: number;
+  relatedEntityId?: string | null;
+  isRead: boolean;
+  createdAt: string;
+  senderUserName?: string | null;
+}
+
+export interface CreatePurchaseRequestRequest {
+  announcementId: string;
+  message?: string;
+}
+
+export const purchaseRequestStatusLabels: Record<number, string> = {
+  [PurchaseRequestStatus.Pending]: 'Ожидает',
+  [PurchaseRequestStatus.Accepted]: 'Принят',
+  [PurchaseRequestStatus.Rejected]: 'Отклонён',
+};
+
+export const inAppNotificationTypeLabels: Record<number, string> = {
+  [InAppNotificationType.PurchaseRequest]: 'Новый запрос',
+  [InAppNotificationType.RequestAccepted]: 'Запрос принят',
+  [InAppNotificationType.RequestRejected]: 'Запрос отклонён',
+};

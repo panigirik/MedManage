@@ -167,4 +167,13 @@ public class AnnouncementRepository : IAnnouncementRepository
             .Where(a => a.Content.Contains(content))
             .ToListAsync();
     }
+
+    public async Task<IEnumerable<Announcement>> GetByUserIdAsync(Guid userId)
+    {
+        return await _context.Announcements
+            .Include(a => a.User)
+            .Where(a => a.CreatedByUserId == userId)
+            .OrderByDescending(a => a.CreatedAt)
+            .ToListAsync();
+    }
 }

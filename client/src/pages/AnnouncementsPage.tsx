@@ -17,11 +17,13 @@ import { PlusOutlined, SearchOutlined, DeleteOutlined, EditOutlined } from '@ant
 import { useNavigate } from 'react-router-dom';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { deleteAnnouncement } from '../api/announcements';
+import { useAuth } from '../contexts/AuthContext';
 import {
   InventoryStatus,
   ProductType,
   inventoryStatusLabels,
   productTypeLabels,
+  UserRole,
   type AnnouncementDTO,
 } from '../types';
 
@@ -38,7 +40,9 @@ const statusColors: Record<number, string> = {
 export default function AnnouncementsPage() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const { user } = useAuth();
   const { data: announcements, isLoading } = useAnnouncements();
+  const isAdmin = (user?.role ?? 0) >= UserRole.Admin;
 
   const [searchFilter, setSearchFilter] = useState('');
   const [productTypeFilter, setProductTypeFilter] = useState<ProductType>(ProductType.All);
@@ -120,25 +124,29 @@ export default function AnnouncementsPage() {
       dataIndex: 'views',
       key: 'views',
     },
-    {
-      title: 'Действия',
-      key: 'actions',
-      render: (_: unknown, record: AnnouncementDTO) => (
-        <Space onClick={(e) => e.stopPropagation()}>
-          <Button
-            icon={<EditOutlined />}
-            size="small"
-            onClick={() => navigate(`/announcements/${record.announcementId}`, { state: { startEditing: true } })}
-          />
-          <Popconfirm
-            title="Удалить?"
-            onConfirm={() => deleteMutation.mutate(record.announcementId)}
-          >
-            <Button icon={<DeleteOutlined />} size="small" danger />
-          </Popconfirm>
-        </Space>
-      ),
-    },
+    ...(isAdmin
+      ? [
+          {
+            title: 'Действия',
+            key: 'actions',
+            render: (_: unknown, record: AnnouncementDTO) => (
+              <Space onClick={(e) => e.stopPropagation()}>
+                <Button
+                  icon={<EditOutlined />}
+                  size="small"
+                  onClick={() => navigate(`/announcements/${record.announcementId}`, { state: { startEditing: true } })}
+                />
+                <Popconfirm
+                  title="Удалить?"
+                  onConfirm={() => deleteMutation.mutate(record.announcementId)}
+                >
+                  <Button icon={<DeleteOutlined />} size="small" danger />
+                </Popconfirm>
+              </Space>
+            ),
+          },
+        ]
+      : []),
   ];
 
   return (

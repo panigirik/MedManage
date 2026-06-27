@@ -46,6 +46,16 @@ public interface IAnnouncementService
     Task DeleteAnnouncementAsync(Guid announcementId);
 
     /// <summary>
+    /// Получить объявления текущего пользователя.
+    /// </summary>
+    Task<IEnumerable<AnnouncementDTO>> GetMyAnnouncementsAsync();
+
+    /// <summary>
+    /// Получить объявления пользователя по идентификатору.
+    /// </summary>
+    Task<IEnumerable<AnnouncementDTO>> GetAnnouncementsByUserIdAsync(Guid userId);
+
+    /// <summary>
     /// Получить имя пользователя из токена.
     /// </summary>
     string GetUserNameFromToken();

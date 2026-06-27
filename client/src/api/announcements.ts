@@ -37,3 +37,8 @@ export async function updateAnnouncementContent(
 export async function deleteAnnouncement(id: string): Promise<void> {
   await apiClient.delete(`/Announcement/${id}`);
 }
+
+export async function getMyAnnouncements(): Promise<AnnouncementDTO[]> {
+  const { data } = await apiClient.get('/Announcement/my');
+  return data;
+}

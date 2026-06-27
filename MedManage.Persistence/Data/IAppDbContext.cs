@@ -13,6 +13,8 @@ public interface IAppDbContext
     DbSet<Inventory> Inventories { get; }
     DbSet<Announcement> Announcements { get; }
     DbSet<NotificationOutbox> NotificationOutbox { get; }
+    DbSet<PurchaseRequest> PurchaseRequests { get; }
+    DbSet<InAppNotification> InAppNotifications { get; }
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
     int SaveChanges();

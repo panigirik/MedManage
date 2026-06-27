@@ -34,6 +34,13 @@ namespace MedManage.WebAPI.Controllers
             return Ok(announcement);
         }
 
+        [HttpGet("my")]
+        public async Task<IActionResult> GetMyAnnouncements()
+        {
+            var announcements = await _announcementService.GetMyAnnouncementsAsync();
+            return Ok(announcements);
+        }
+
         [HttpGet("paginated")]
         public async Task<IActionResult> GetAllAnnouncementsPaginatedAsync(
             int pageNumber, 

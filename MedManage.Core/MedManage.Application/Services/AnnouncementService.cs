@@ -115,6 +115,18 @@ namespace MedManage.Application.Services
         }
 
         /// <inheritdoc />
+        public async Task<IEnumerable<AnnouncementDTO>> GetMyAnnouncementsAsync()
+        {
+            var userId = GetCurrentUserId();
+            return await GetAnnouncementsByUserIdAsync(userId);
+        }
+
+        public async Task<IEnumerable<AnnouncementDTO>> GetAnnouncementsByUserIdAsync(Guid userId)
+        {
+            var announcements = await _announcementRepository.GetByUserIdAsync(userId);
+            return _mapper.Map<IEnumerable<AnnouncementDTO>>(announcements);
+        }
+
         public async Task DeleteAnnouncementAsync(Guid announcementId)
         {
             var announcement = await _announcementRepository.GetByIdAsync(announcementId);
@@ -122,6 +134,14 @@ namespace MedManage.Application.Services
                 throw new AnnouncementNotFoundException($"Объявление с ID {announcementId} не найдено.");
 
             await _announcementRepository.DeleteAsync(announcement);
+        }
+
+        private Guid GetCurrentUserId()
+        {
+            var userIdClaim = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (!Guid.TryParse(userIdClaim, out var userId))
+                throw new UnauthorizedAccessException("Invalid user");
+            return userId;
         }
 
         /// <inheritdoc />

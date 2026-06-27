@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useEffect, useCallback, useRef, type ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useQueryClient } from '@tanstack/react-query';
 import { getCurrentUser } from '../api/users';
 import { STORAGE_KEYS } from '../api/axios';
 import type { UserDTO } from '../types';
@@ -18,6 +19,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const [token, setTokenState] = useState<string | null>(() =>
     localStorage.getItem(STORAGE_KEYS.TOKEN),
   );
@@ -69,6 +71,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setTokenState(newToken);
     setUser(newUser);
     setLoading(false);
+    queryClient.invalidateQueries();
   };
 
   const setTokens = (newToken: string, newRefresh: string) => {
@@ -78,6 +81,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const logout = () => {
+    queryClient.invalidateQueries();
     clearTokens();
     navigate('/login');
   };

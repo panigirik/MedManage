@@ -38,4 +38,5 @@ public interface IAnnouncementRepository
     Task<IEnumerable<Announcement>> GetAnnouncementsByDateAsync(DateTime date);
 
     Task<IEnumerable<Announcement>> SearchAnnouncementsByContentAsync(string content);
+    Task<IEnumerable<Announcement>> GetByUserIdAsync(Guid userId);
 }
